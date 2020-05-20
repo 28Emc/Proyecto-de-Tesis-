@@ -1,5 +1,6 @@
 package com.sise.titulacion.titulacionbackend.entity;
 
+import java.util.Date;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,8 +27,16 @@ public class Categoria {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nombre_categoria")
+    @Column(name = "nombre_categoria", unique = true)
     private String nombreCategoria;
+
+    @Column(name = "date_created")
+    @CreationTimestamp
+    private Date dateCreated;
+
+    @Column(name = "date_updated")
+    @UpdateTimestamp
+    private Date dateUpdated;
 
     @Column(name = "estado_categoria")
     private boolean estadoCategoria;
