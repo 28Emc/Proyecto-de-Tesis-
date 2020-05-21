@@ -4,6 +4,7 @@ import java.util.List;
 import com.sise.titulacion.titulacionbackend.dao.ProductoRepository;
 import com.sise.titulacion.titulacionbackend.entity.Producto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,33 +22,34 @@ public class ProductoServiceImpl implements IProductoService {
 
     @Override
     @Transactional(readOnly = true)
-    public Producto findOne(Long id) throws Exception {
+    public Producto findOne(Long id) {
         if (id > 0) {
-            return repository.findById(id).orElseThrow();
+            return repository.findById(id).orElse(null);
         } else {
-            throw new Exception("Error, el id es inválido");
+            throw null;
         }
     }
 
     @Override
     @Transactional
-    public Producto save(Producto producto) {
+    public Producto save(Producto producto) throws DataAccessException {
+        producto.setEstadoProducto(true);
         return repository.save(producto);
     }
 
     @Override
     @Transactional
-    public void SoftDelete(Long id) throws Exception {
+    public void softDelete(Long id) {
         Producto producto = findOne(id);
         producto.setEstadoProducto(false);
         repository.save(producto);
     }
 
-    /*@Override
+    @Override
     @Transactional
-    public void hardDelete(Long id) throws Exception {
+    public void hardDelete(Long id) {
         Producto producto = findOne(id);
         repository.delete(producto);
-    }*/
+    }
 
 }

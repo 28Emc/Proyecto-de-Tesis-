@@ -1,6 +1,5 @@
 package com.sise.titulacion.titulacionbackend.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,20 +16,36 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = { "*", "http://localhost:4200" })
 @RestController
-@RequestMapping("/api")
 public class CategoriaRestController {
 
     @Autowired
     private ICategoriaService categoriaService;
 
     @GetMapping("/listar-categorias")
-    public List<Categoria> listarCategorias() {
-        return categoriaService.findAll();
+    public ResponseEntity<?> listarCategorias() {
+        Map<String, Object> response = new HashMap<>();
+        List<Categoria> categorias = null;
+        try {
+            categorias = categoriaService.findAll();
+        } catch (DataAccessException e) {
+            response.put("mensaje",
+                    "Lo sentimos, hubo un error a la hora de realizar la consulta a la base de datos. Inténtelo mas tarde!");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if (categorias.size() == 0) {
+            response.put("mensaje", "Lo sentimos, no hay categorias en la base de datos!");
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+        }
+
+        response.put("mensaje", "El listado de categorías ha sido cargado con éxito!");
+        response.put("categorias", categorias);
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
     }
 
     @GetMapping("/ver-categoria/{id}")
@@ -89,7 +104,6 @@ public class CategoriaRestController {
 
             categoriaActual.setNombreCategoria(categoria.getNombreCategoria());
             categoriaActual.setEstadoCategoria(categoria.isEstadoCategoria());
-            categoriaActual.setDateUpdated(new Date());
             categoriaModificada = categoriaService.save(categoriaActual);
         } catch (DataAccessException e) {
             response.put("mensaje", "Lo sentimos, hubo un error a la hora de actualizar la categoría");
@@ -117,7 +131,7 @@ public class CategoriaRestController {
 
             categoriaService.softDelete(id);
         } catch (DataAccessException e) {
-            response.put("mensaje", "Lo sentimos, hubo un error a la hora de actualizar la categoría");
+            response.put("mensaje", "Lo sentimos, hubo un error a la hora de deshabilitar la categoría");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }

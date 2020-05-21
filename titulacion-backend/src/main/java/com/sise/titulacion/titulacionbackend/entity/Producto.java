@@ -9,9 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import lombok.Data;
 
 @Entity
@@ -43,11 +43,9 @@ public class Producto {
     private String fotoProducto;
 
     @Column(name = "date_created")
-    @CreationTimestamp
     private Date dateCreated;
 
     @Column(name = "date_updated")
-    @UpdateTimestamp
     private Date dateUpdated;
 
     @Column(name = "estado_producto")
@@ -56,5 +54,16 @@ public class Producto {
     @ManyToOne
     @JoinColumn(name = "id_categoria", nullable = false)
     private Categoria categoria;
+
+    @PrePersist
+    private void onCreate() {
+        dateCreated = new Date();
+        dateUpdated = null;
+    }
+
+    @PreUpdate
+    private void onUpdate() {
+        dateUpdated = new Date();
+    }
 
 }
