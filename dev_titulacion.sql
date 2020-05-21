@@ -1,8 +1,3 @@
-/*
-* CREACIÓN DE BD
-*/
-CREATE DATABASE  IF NOT EXISTS `dev_titulacion` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `dev_titulacion`;
 -- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: dev_titulacion
@@ -29,10 +24,12 @@ DROP TABLE IF EXISTS `tb_categorias`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tb_categorias` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `nombre_categoria` varchar(200) COLLATE utf8_bin NOT NULL,
+  `nombre_categoria` varchar(200) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `date_created` datetime DEFAULT NULL,
+  `date_updated` datetime DEFAULT NULL,
   `estado_categoria` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +38,7 @@ CREATE TABLE `tb_categorias` (
 
 LOCK TABLES `tb_categorias` WRITE;
 /*!40000 ALTER TABLE `tb_categorias` DISABLE KEYS */;
-INSERT INTO `tb_categorias` VALUES (1,'LICORES',_binary ''),(2,'GASEOSAS',_binary '');
+INSERT INTO `tb_categorias` VALUES (1,'LICORES','2020-05-20 04:03:41',NULL,_binary ''),(2,'GASEOSAS','2020-05-20 04:03:46',NULL,_binary '');
 /*!40000 ALTER TABLE `tb_categorias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,12 +51,12 @@ DROP TABLE IF EXISTS `tb_productos`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tb_productos` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `nombre_producto` varchar(100) COLLATE utf8_bin NOT NULL,
-  `descripcion_producto` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `presentacion_producto` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `nombre_producto` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `descripcion_producto` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `presentacion_producto` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `stock_producto` int DEFAULT NULL,
   `precio_producto` decimal(13,2) DEFAULT NULL,
-  `foto_producto` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'assets/images/productos/no_image.png',
+  `foto_producto` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'assets/images/productos/no_image.png',
   `date_created` datetime(6) DEFAULT NULL,
   `date_updated` datetime(6) DEFAULT NULL,
   `estado_producto` bit(1) DEFAULT b'1',
@@ -89,15 +86,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-19 20:42:50
-
-/*
-* CREACIÓN DE USUARIO Y VALIDACIÓN DE PRIVILEGIOS PARA USO DE BD DEV_TITULACION
-*/
-CREATE USER 'tilin'@'localhost' IDENTIFIED BY 'tilin';
-
-GRANT ALL PRIVILEGES ON *.* TO 'tilin'@'localhost';
-/*
-* IMPORTANTE: PRIMERO DEBES ESTAR LOGUEADO CON ROOT SI NO MANDA ERROR
-*/
-ALTER USER 'tilin'@'localhost' IDENTIFIED WITH mysql_native_password BY 'tilin';
+-- Dump completed on 2020-05-20  4:04:31
