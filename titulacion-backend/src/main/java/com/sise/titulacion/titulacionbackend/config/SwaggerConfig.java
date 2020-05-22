@@ -27,7 +27,7 @@ public class SwaggerConfig {
     private ApiInfo metaData() {
         return new ApiInfoBuilder().title("Spring Boot REST API dev titulación")
                 .description("\"Spring Boot REST API para sistema de titulación de Sise\"").version("1.0.0")
-                .license("Apache License Version 2.0").licenseUrl("https://www.apache.org/licenses/LICENSE-2.0\"")
+                .license("Apache License Version 2.0").licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
                 .build();
     }
 
