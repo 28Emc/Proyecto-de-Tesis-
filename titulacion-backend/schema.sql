@@ -1,4 +1,4 @@
-CREATE TABLE heroku_56897c984a6aed1.tb_categorias (
+CREATE TABLE tb_categorias (
   id bigint NOT NULL AUTO_INCREMENT,
   nombre_categoria varchar(200) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   date_created datetime DEFAULT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE heroku_56897c984a6aed1.tb_categorias (
   UNIQUE KEY nombre_categoria_UNIQUE (nombre_categoria)
 )
 
-CREATE TABLE heroku_56897c984a6aed1.tb_productos (
+CREATE TABLE tb_productos (
   id bigint NOT NULL AUTO_INCREMENT,
   nombre_producto varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   descripcion_producto varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
